@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowUpRight, Menu, X } from "lucide-react";
@@ -9,10 +10,9 @@ import { navigation, site } from "@/content/site";
 export function Brand({ onClick }: { onClick?: () => void }) {
   return (
     <Link className="brand" href="/" onClick={onClick} aria-label={site.name + " — на главную"}>
-      <svg viewBox="0 0 40 40" width="37" height="37" aria-hidden="true">
-        <path fill="currentColor" d="M0 0h40v40H0z"/>
-        <path d="M9 29V11h21M15 29V17h15M21 29v-6h9" fill="none" stroke="#fff" strokeWidth="2.5"/>
-      </svg>
+      <span className="brand-mark" aria-hidden="true">
+        <Image src="/images/logo-fr-r.png" width={455} height={476} alt="" />
+      </span>
       <span>ФОРМ-РЕСУРС <b>М</b></span>
     </Link>
   );
