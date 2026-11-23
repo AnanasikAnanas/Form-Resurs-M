@@ -10,7 +10,13 @@ export const metadata: Metadata = {
   applicationName: site.name,
   robots: { index: false, follow: false },
   title: { default: site.name, template: `%s — ${site.name}` },
-  icons: { icon: "/icon.svg" },
+  icons: {
+    icon: [
+      { url: "/icon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+    ],
+    apple: { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
