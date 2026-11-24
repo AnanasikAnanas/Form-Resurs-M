@@ -44,6 +44,7 @@ export default async function ContactsPage() {
         {(contact.mapUrl || showPlaceholders) && <div className="location-panel">
           <p className="location-region">{site.region}</p>
           <p className="location-city">{site.city}</p>
+          {contact.mapEmbedUrl && <iframe className="location-map" src={contact.mapEmbedUrl} title="Расположение мастерской «Форм-Ресурс М» на Яндекс Картах" loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />}
           {contact.mapUrl ? <a className="text-link" href={contact.mapUrl}>Открыть карту <ArrowUpRight size={17} aria-hidden="true" /></a>
             : <p className="muted">Точный адрес и схема проезда уточняются.</p>}
         </div>}

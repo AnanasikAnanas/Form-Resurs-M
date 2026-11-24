@@ -11,6 +11,7 @@ export type SiteContent = {
     schedule: string | null;
     legalDetails: string[] | null;
     mapUrl: string | null;
+    mapEmbedUrl: string | null;
   };
   privacy: { approvedText: string | null; approvedConsent: string | null };
 };
@@ -20,14 +21,15 @@ export const site: SiteContent = {
   city: "Подольск",
   region: "Московская область",
   proposedDomain: "form-resurs-m.ru",
-  showPlaceholders: true,
+  showPlaceholders: false,
   contact: {
-    address: null,
-    phone: null,
-    email: null,
-    schedule: null,
+    address: "Московская область, г. Подольск, ул. Комсомольская, д. 1, корп. 21",
+    phone: { display: "+7 (927) 980-14-11", href: "tel:+79279801411" },
+    email: "msk@form-resurs.ru",
+    schedule: "Пн–Пт с 08:00 до 17:00; Сб–Вс — выходные",
     legalDetails: null,
-    mapUrl: null,
+    mapUrl: "https://yandex.ru/maps/-/CXcWyN9r",
+    mapEmbedUrl: "https://yandex.ru/map-widget/v1/-/CXcWyN9r",
   },
   privacy: { approvedText: null, approvedConsent: null },
 };
