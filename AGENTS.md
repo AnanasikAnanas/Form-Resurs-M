@@ -46,3 +46,34 @@ Codex must read and follow AGENTS.md before every subsequent substantial change 
 ## Pre-handoff checks
 
 Review the layout at 320, 375, 768, 1440 and 1920 px. Check horizontal overflow, keyboard navigation, all internal links and the contact form states. Use real workshop photos when approved materials are available. Keep demonstration projects visibly marked and editable from the content files.
+
+
+## Motion & Interaction Guidelines
+
+- Animations must reinforce usability and visual hierarchy.
+- Prefer subtle, purposeful motion.
+- Use consistent duration and easing tokens.
+- Never introduce excessive parallax or decorative motion.
+- Avoid bouncing and spring-heavy interactions.
+- Respect reduced-motion preferences.
+- Prefer transform and opacity.
+- Avoid layout shifts.
+- Do not introduce animation libraries without clear justification.
+- Preserve the Industrial Editorial design identity.
+- Ensure interactions work with keyboard and touch.
+- Do not hide important content behind animations.
+
+
+## UX & Interaction Guidelines
+
+- Prefer native browser behavior when possible.
+- Use libraries only when they provide meaningful UX improvements.
+- Maintain consistent interactive states.
+- Preserve accessibility and keyboard navigation.
+- Never introduce fake success states.
+- Keep feedback clear, concise and contextual.
+- Avoid unnecessary visual effects.
+- Respect reduced-motion preferences.
+- Preserve the Industrial Editorial design.
+- Do not sacrifice performance for decorative interactions.
+- Do not duplicate existing functionality.

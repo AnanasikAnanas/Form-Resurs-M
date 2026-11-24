@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useEffect, useRef, useState, type FormEvent } from "react";
+import { Feedback } from "./feedback";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { ArrowUpRight, LoaderCircle, X } from "lucide-react";
@@ -44,13 +45,13 @@ export function InquiryForm({ settings }: { settings: InquirySettings }) {
     fetch("/api/inquiries/token/?key=" + key, { cache: "no-store", signal: controller.signal })
       .then(async (response) => {
         const body = await response.json();
-        if (!response.ok || !body.ok || typeof body.token !== "string") throw new Error(body.message || "Не удалось подготовить отправку.");
-        if (body.documentVersion !== settings.documentVersion) throw new Error("Документы компании обновились. Обновите страницу и ознакомьтесь с ними перед отправкой.");
+        if (!response.ok || !body.ok || typeof body.token !== "string") throw new Error("PREPARATION_FAILED");
+        if (body.documentVersion !== settings.documentVersion) throw new Error("DOCUMENT_VERSION");
         setToken(body.token);
         setMessage("");
       })
       .catch((error: unknown) => {
-        if (controller.signal.reason !== "cleanup") setMessage(controller.signal.aborted ? "Подготовка отправки заняла слишком много времени. Проверьте соединение и повторите попытку." : error instanceof Error ? error.message : "Не удалось подготовить отправку.");
+        if (controller.signal.reason !== "cleanup") setMessage(controller.signal.aborted ? "Подготовка отправки заняла слишком много времени. Проверьте соединение и повторите попытку." : error instanceof Error && error.message === "DOCUMENT_VERSION" ? "Документы компании обновились. Обновите страницу и ознакомьтесь с ними перед отправкой." : "Не удалось подготовить отправку. Повторите попытку позже.");
       })
       .finally(() => clearTimeout(timeout));
     return () => { clearTimeout(timeout); controller.abort("cleanup"); };
@@ -71,7 +72,7 @@ export function InquiryForm({ settings }: { settings: InquirySettings }) {
 
   function errorFor(field: keyof FieldErrors) {
     const text = errors[field]?.[0];
-    return text ? <span className="field-error" id={field + "-error"}>{text}</span> : null;
+    return text ? <span className="field-error" role={field === "files" ? "alert" : undefined} id={field + "-error"}>{text}</span> : null;
   }
 
   function invalid(field: keyof FieldErrors) {
@@ -82,12 +83,15 @@ export function InquiryForm({ settings }: { settings: InquirySettings }) {
     if (!selected) return;
     const next = [...files, ...Array.from(selected)];
     let error = "";
+    const invalidSize = next.find(file => !file.size || file.size > limits.maxFileBytes);
+    const invalidFormat = next.find(file => !limits.formats.some(format => (fileFormats[format].extensions as readonly string[]).includes(file.name.split(".").pop()?.toLowerCase() || "")));
     if (next.length > limits.maxFiles) error = "Разрешено не более " + limits.maxFiles + " файлов.";
-    else if (next.some((file) => !file.size || file.size > limits.maxFileBytes)) error = "Один из файлов пуст или превышает " + mb(limits.maxFileBytes) + " МБ.";
+    else if (invalidSize) error = `Файл «${invalidSize.name}» пуст или превышает ${mb(limits.maxFileBytes)} МБ.`;
     else if (next.reduce((sum, file) => sum + file.size, 0) > limits.maxTotalBytes) error = "Общий размер файлов превышает " + mb(limits.maxTotalBytes) + " МБ.";
-    else if (next.some((file) => !limits.formats.some((format) => (fileFormats[format].extensions as readonly string[]).includes(file.name.split(".").pop()?.toLowerCase() || "")))) error = "Недопустимый формат файла.";
+    else if (invalidFormat) error = `Формат файла «${invalidFormat.name}» не поддерживается. Разрешены: ${limits.formats.map(format => fileFormats[format].label).join(", ")}.`;
     setErrors((previous) => ({ ...previous, files: error ? [error] : undefined }));
     if (!error) setFiles(next);
+    else requestAnimationFrame(() => formRef.current?.querySelector<HTMLInputElement>('input[name="files"]')?.focus());
   }
 
   async function submit(event: FormEvent<HTMLFormElement>) {
@@ -124,7 +128,7 @@ export function InquiryForm({ settings }: { settings: InquirySettings }) {
           setToken("");
           setTokenAttempt((attempt) => attempt + 1);
         }
-        failureMessage = body.message || "Не удалось отправить обращение. Повторите попытку.";
+        failureMessage = response.status >= 500 ? "Сервис временно недоступен. Данные сохранены в форме. Повторите попытку позже." : typeof body.message === "string" ? body.message : "Не удалось отправить обращение. Повторите попытку.";
         throw new Error("API_ERROR");
       }
       setSuccess(true);
@@ -142,8 +146,8 @@ export function InquiryForm({ settings }: { settings: InquirySettings }) {
 
   return <form ref={formRef} className="inquiry-form" aria-describedby="inquiry-note" onSubmit={submit} noValidate>
     <p id="inquiry-note" className="inquiry-note">{enabled ? "После отправки обращение будет сохранено. Вложения доступны только ответственным сотрудникам." : "Онлайн-приём обращений временно недоступен. Попробуйте зайти позже."}</p>
-    {message && <div ref={feedbackRef} tabIndex={-1} className="form-feedback form-feedback-error" role="alert"><p>{message}</p>{enabled && !token && <button type="button" className="text-link" onClick={retryPreparation}>Повторить подготовку формы</button>}</div>}
-    {result && <div ref={resultRef} tabIndex={-1} className="form-feedback" role="status"><p>{result}</p><button type="button" className="text-link" onClick={() => { setSuccess(false); setResult(""); setToken(""); setKey(crypto.randomUUID()); }}>Новое обращение</button></div>}
+    {message && <Feedback ref={feedbackRef} error><p>{message}</p>{enabled && !token && <button type="button" className="text-link" onClick={retryPreparation}>Повторить подготовку формы</button>}</Feedback>}
+    {result && <Feedback ref={resultRef}><p>{result}</p><button type="button" className="text-link" onClick={() => { setSuccess(false); setResult(""); setToken(""); setKey(crypto.randomUUID()); }}>Новое обращение</button></Feedback>}
     <fieldset disabled={!enabled || sending || success} aria-busy={sending}>
       <legend className="sr-only">Данные для обращения</legend>
       <div className="form-pair">

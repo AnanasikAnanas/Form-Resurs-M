@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { WorkshopPhoto } from "@/components/workshop-photo";
+import { workshopPhotos } from "@/content/workshop";
 import { Action, ContactBand, Eyebrow, Process, ProjectList, ServiceList, TextLink } from "@/components/editorial";
 import { visibleProjects } from "@/content/projects";
 import { pageMeta } from "@/content/seo";
@@ -23,15 +25,16 @@ export default function Home() {
           <p className="lede">Ремонт, обслуживание и восстановление пресс-форм. Лазерная наплавка и полировка формообразующих поверхностей.</p>
           <div className="hero-actions"><Action href="/services/">Наши услуги</Action><Action href="/contacts/#inquiry" variant="outline">Обсудить задачу</Action></div>
         </div>
-        <figure className="hero-art">
-          <Image src="/images/mold.svg" alt="" width={800} height={690} preload />
-          <figcaption><span>Пресс-форма</span><span>Техническая иллюстрация</span></figcaption>
+        <figure className="hero-art hero-workshop">
+          <div className="photo-viewport"><Image src={workshopPhotos.mold.src} alt={workshopPhotos.mold.alt} width={1280} height={960} sizes="(max-width: 820px) 100vw, 52vw" preload /></div>
+          <figcaption><span>Пресс-форма</span><span>Мастерская</span></figcaption>
         </figure>
       </div>
     </section>
     <section className="section workshop">
-      <div className="wrap split">
+      <div className="wrap split workshop-intro">
         <div><Eyebrow>Специализация</Eyebrow><h2>Слесарная<br />мастерская</h2></div>
+        <WorkshopPhoto photo="bench" className="workshop-intro-photo" />
         <div className="paragraph-stack">
           <p className="section-lede">Работаем с оснасткой, которая уже используется в производстве.</p>
           <p>Ремонтируем и обслуживаем пресс-формы, выполняем лазерную наплавку и полировку формообразующих поверхностей. Подход к ремонту определяем по состоянию и назначению оснастки.</p>

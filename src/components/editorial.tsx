@@ -1,3 +1,5 @@
+import { MediaTrigger } from "./media-trigger";
+import { workshopPhotos } from "@/content/workshop";
 import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -27,19 +29,22 @@ export function Breadcrumbs({ parent, current }: { parent?: { label: string; hre
   </nav>;
 }
 
-export function PageIntro({ title, description, parent, current = title, label, image }: {
-  title: string; description: string; parent?: { label: string; href: string }; current?: string; label?: string; image?: string;
+export function PageIntro({ title, description, parent, current = title, label, image, photo }: {
+  title: string; description: string; parent?: { label: string; href: string }; current?: string; label?: string; image?: string; photo?: { src: string; alt: string; width: number; height: number; caption: string };
 }) {
   return <section className="dark page-intro">
     <div className="wrap">
       <Breadcrumbs parent={parent} current={current} />
-      <div className={image ? "intro-grid" : "intro-copy"}>
+      <div className={image || photo ? "intro-grid" : "intro-copy"}>
         <div>
           {label && <Eyebrow>{label}</Eyebrow>}
           <h1>{title}</h1>
           <p className="lede">{description}</p>
         </div>
-        {image && <figure className="intro-image">
+        {photo ? <figure className="intro-image intro-workshop">
+          <MediaTrigger slides={Object.values(workshopPhotos)} src={photo.src}><Image src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} sizes="(max-width: 820px) 90vw, 360px" preload /></MediaTrigger>
+          <figcaption>{photo.caption}</figcaption>
+        </figure> : image && <figure className="intro-image">
           <Image src={image} width={800} height={540} alt="" preload />
           <figcaption>Техническая иллюстрация</figcaption>
         </figure>}
@@ -98,7 +103,7 @@ export function ProjectList({ projects, compact = false }: { projects: Project[]
           {project.status === "published" && (project.before || project.after) ? (
             <div className="photo-pair">
               {([[project.before, "До работ"], [project.after, "После работ"]] as const).map(([src, label]) => src && (
-                <figure key={label}><Image src={src} width={800} height={540} alt={`${project.title} — ${label.toLowerCase()}`} /><figcaption>{label}</figcaption></figure>
+                <figure key={label}><MediaTrigger src={src} slides={([[project.before, "До работ"], [project.after, "После работ"]] as const).flatMap(([image, caption]) => image ? [{ src: image, alt: `${project.title} — ${caption.toLowerCase()}`, caption }] : [])}><Image src={src} width={800} height={540} alt={`${project.title} — ${label.toLowerCase()}`} /></MediaTrigger><figcaption>{label}</figcaption></figure>
               ))}
             </div>
           ) : (

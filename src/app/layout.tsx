@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { MotionController } from "@/components/motion-controller";
 import { Header } from "@/components/chrome";
 import { Footer } from "@/components/editorial";
 import { siteUrl } from "@/content/seo";
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <body id="top">
       <a className="skip-link" href="#main">К содержанию</a>
       <Header />
+      <MotionController />
       <main id="main" tabIndex={-1}>{children}</main>
       <Footer />
     </body>
