@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/reveal";
 import { ContactBand, PageIntro, Process, TextLink } from "@/components/editorial";
 import { WorkshopPhoto } from "@/components/workshop-photo";
 import { workshopPhotos } from "@/content/workshop";
@@ -9,15 +10,15 @@ export default function AboutPage() {
   return <>
     <PageIntro title="О компании" label="Подольск / Московская область" description="«Форм-Ресурс М» — слесарная мастерская по ремонту и обслуживанию пресс-форм." photo={workshopPhotos.bench} />
     <section className="section"><div className="wrap split">
-      <h2>Слесарная мастерская</h2>
-      <div className="paragraph-stack">
+      <Reveal as="h2">Слесарная мастерская</Reveal>
+      <Reveal className="paragraph-stack">
         <p className="section-lede">Мастерская работает с пресс-формами, которым требуется обслуживание, восстановление или доводка рабочих поверхностей.</p>
         <p>Чтобы определить подходящую услугу, учитываем назначение оснастки, признаки износа и требования к результату. Возможность и объём конкретных операций обсуждаем по исходным данным.</p>
         <TextLink href="/services/">Посмотреть услуги</TextLink>
-      </div>
+      </Reveal>
     </div></section>
     <section className="section production-base"><div className="wrap">
-      <div className="section-heading"><h2>Производственная база</h2></div>
+      <Reveal className="section-heading"><h2>Производственная база</h2></Reveal>
       <div className="production-overview">
         <WorkshopPhoto photo="overview" />
         <div className="production-detail"><h3>Рабочие места и оборудование</h3><p>Общий вид оборудования и отдельных рабочих мест мастерской.</p><WorkshopPhoto photo="optical" /></div>

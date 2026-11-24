@@ -18,7 +18,8 @@
     "inquiries": "node --conditions=react-server --import tsx scripts/inquiries.ts",
     "test": "node --conditions=react-server --import tsx --test tests/inquiries.test.ts",
     "test:integration": "node --conditions=react-server --import tsx --test tests/integration.test.ts",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "test:motion": "node --import tsx --test tests/reveal.test.tsx"
   },
   "dependencies": {
     "@prisma/adapter-pg": "7.10.1",
@@ -26,6 +27,7 @@
     "dotenv": "18.0.10",
     "file-type": "22.3.0",
     "lucide-react": "1.24.0",
+    "motion": "12.40.0",
     "next": "16.4.6",
     "nodemailer": "10.6.1",
     "pdf-lib": "1.17.1",

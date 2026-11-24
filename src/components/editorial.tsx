@@ -1,3 +1,4 @@
+import { Reveal, RevealGroup, RevealItem } from "./reveal";
 import { MediaTrigger } from "./media-trigger";
 import { workshopPhotos } from "@/content/workshop";
 import type { ReactNode } from "react";
@@ -36,69 +37,69 @@ export function PageIntro({ title, description, parent, current = title, label, 
     <div className="wrap">
       <Breadcrumbs parent={parent} current={current} />
       <div className={image || photo ? "intro-grid" : "intro-copy"}>
-        <div>
+        <Reveal>
           {label && <Eyebrow>{label}</Eyebrow>}
           <h1>{title}</h1>
           <p className="lede">{description}</p>
-        </div>
-        {photo ? <figure className="intro-image intro-workshop">
+        </Reveal>
+        {photo ? <Reveal as="figure" type="fade" className="intro-image intro-workshop">
           <MediaTrigger slides={Object.values(workshopPhotos)} src={photo.src}><Image src={photo.src} alt={photo.alt} width={photo.width} height={photo.height} sizes="(max-width: 820px) 90vw, 360px" preload /></MediaTrigger>
           <figcaption>{photo.caption}</figcaption>
-        </figure> : image && <figure className="intro-image">
+        </Reveal> : image && <Reveal as="figure" type="fade" className="intro-image">
           <Image src={image} width={800} height={540} alt="" preload />
           <figcaption>Техническая иллюстрация</figcaption>
-        </figure>}
+        </Reveal>}
       </div>
     </div>
   </section>;
 }
 
 export function ServiceList() {
-  return <ul className="service-list">
-    {services.map((service) => (
-      <li key={service.slug}><Link href={serviceUrl(service.slug)} className="service-row">
+  return <RevealGroup as="ul" className="service-list">
+    {services.map((service, index) => (
+      <RevealItem as="li" index={index} key={service.slug}><Link href={serviceUrl(service.slug)} className="service-row">
         <span className="service-num">{service.number}</span>
         <h3>{service.shortTitle}</h3>
         <p>{service.summary}</p>
         <ArrowUpRight className="row-arrow" size={23} aria-hidden="true" />
-      </Link></li>
+      </Link></RevealItem>
     ))}
-  </ul>;
+  </RevealGroup>;
 }
 
 export function Process() {
   return <section className="section process-section">
     <div className="wrap split">
-      <div>
+      <Reveal>
         <Eyebrow>Сотрудничество</Eyebrow>
         <h2>Порядок работы</h2>
-      </div>
-      <ol className="steps">
+      </Reveal>
+      <RevealGroup as="ol" className="steps">
         {collaboration.map(([title, description], index) => (
-          <li key={title}><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{title}</h3><p>{description}</p></div></li>
+          <RevealItem as="li" index={index} key={title}><span>{String(index + 1).padStart(2, "0")}</span><div><h3>{title}</h3><p>{description}</p></div></RevealItem>
         ))}
-      </ol>
+      </RevealGroup>
     </div>
   </section>;
 }
 
 export function ContactBand({ service }: { service?: string }) {
   return <section className="contact-band">
-    <div className="wrap contact-band-inner">
+    <Reveal className="wrap contact-band-inner">
       <div><Eyebrow>{site.city} / {site.region}</Eyebrow><h2>Обсудим вашу задачу</h2>
         <p>Расскажите, с какой оснасткой вы работаете и что нужно восстановить или обслужить.</p></div>
       <Action href={service ? `/contacts/?service=${service}#inquiry` : "/contacts/#inquiry"} variant="outline">Перейти к контактам</Action>
-    </div>
+    </Reveal>
   </section>;
 }
 
 export function ProjectList({ projects, compact = false }: { projects: Project[]; compact?: boolean }) {
   if (!projects.length) return <p className="muted">Материалы для портфолио подготавливаются.</p>;
 
-  return <div className={compact ? "projects-grid compact" : "projects-grid"}>
-    {projects.map((project) => {
+  return <RevealGroup className={compact ? "projects-grid compact" : "projects-grid"}>
+    {projects.map((project, index) => {
       const service = services.find(({ slug }) => slug === project.serviceSlug);
-      return <article className="project" key={project.id} id={project.id}>
+      return <RevealItem as="article" type="fade" index={index} className="project" key={project.id} id={project.id}>
         <div className="project-visual">
           {project.status === "published" && (project.before || project.after) ? (
             <div className="photo-pair">
@@ -124,9 +125,9 @@ export function ProjectList({ projects, compact = false }: { projects: Project[]
             </dl>
           )}
         </div>
-      </article>;
+      </RevealItem>;
     })}
-  </div>;
+  </RevealGroup>;
 }
 
 export function Footer() {

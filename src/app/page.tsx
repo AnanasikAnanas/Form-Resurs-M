@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/reveal";
 import Image from "next/image";
 import { WorkshopPhoto } from "@/components/workshop-photo";
 import { workshopPhotos } from "@/content/workshop";
@@ -33,30 +34,30 @@ export default function Home() {
     </section>
     <section className="section workshop">
       <div className="wrap split workshop-intro">
-        <div><Eyebrow>Специализация</Eyebrow><h2>Слесарная<br />мастерская</h2></div>
+        <Reveal><Eyebrow>Специализация</Eyebrow><h2>Слесарная<br />мастерская</h2></Reveal>
         <WorkshopPhoto photo="bench" className="workshop-intro-photo" />
-        <div className="paragraph-stack">
+        <Reveal className="paragraph-stack">
           <p className="section-lede">Работаем с оснасткой, которая уже используется в производстве.</p>
           <p>Ремонтируем и обслуживаем пресс-формы, выполняем лазерную наплавку и полировку формообразующих поверхностей. Подход к ремонту определяем по состоянию и назначению оснастки.</p>
           <TextLink href="/about/">О компании</TextLink>
-        </div>
+        </Reveal>
       </div>
     </section>
     <section className="section services-section">
       <div className="wrap">
-        <div className="section-heading"><h2>Услуги мастерской</h2><TextLink href="/services/">Все услуги</TextLink></div>
+        <Reveal className="section-heading"><h2>Услуги мастерской</h2><TextLink href="/services/">Все услуги</TextLink></Reveal>
         <ServiceList />
       </div>
     </section>
     <section className="section dark">
       <div className="wrap split">
-        <div><h2>Производственные задачи</h2><p className="section-caption">Перечень работ согласуем после предварительного рассмотрения оснастки.</p></div>
+        <Reveal type="side"><h2>Производственные задачи</h2><p className="section-caption">Перечень работ согласуем после предварительного рассмотрения оснастки.</p></Reveal>
         <ul className="task-list">{tasks.map(([title, description]) => <li key={title}><h3>{title}</h3><p>{description}</p></li>)}</ul>
       </div>
     </section>
     {visibleProjects.length > 0 && <section className="section">
       <div className="wrap">
-        <div className="section-heading"><h2>Наши работы</h2><TextLink href="/projects/">К портфолио</TextLink></div>
+        <Reveal className="section-heading"><h2>Наши работы</h2><TextLink href="/projects/">К портфолио</TextLink></Reveal>
         <ProjectList projects={visibleProjects.slice(0, 2)} compact />
       </div>
     </section>}

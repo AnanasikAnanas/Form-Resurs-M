@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/reveal";
 import { ArrowUpRight } from "lucide-react";
 import { PageIntro } from "@/components/editorial";
 import { InquiryForm } from "@/components/inquiry-form";
@@ -30,7 +31,7 @@ export default async function ContactsPage() {
     <PageIntro title="Контакты" description="Мастерская «Форм-Ресурс М» находится в Подольске, Московская область." />
     <section className="section" aria-labelledby="contact-information">
       <div className="wrap detail-grid contact-grid">
-        <div>
+        <Reveal>
           <h2 id="contact-information">Как связаться</h2>
           <dl className="contact-details">
             {fields.filter(({ value }) => value || showPlaceholders).map(({ label, value, href }) => (
@@ -40,7 +41,7 @@ export default async function ContactsPage() {
               {contact.legalDetails?.length ? contact.legalDetails.map((line) => <span key={line}>{line}</span>) : <span className="muted">Уточняются</span>}
             </dd></div> : null}
           </dl>
-        </div>
+        </Reveal>
         {(contact.mapUrl || showPlaceholders) && <div className="location-panel">
           <p className="location-region">{site.region}</p>
           <p className="location-city">{site.city}</p>
@@ -53,7 +54,7 @@ export default async function ContactsPage() {
     <section className="section process-section" id="inquiry" aria-labelledby="inquiry-title">
       <div className="wrap detail-grid">
         <div><h2 id="inquiry-title">Обсудить задачу</h2><p className="section-caption">Опишите тип пресс-формы, заметные дефекты и желаемый результат.</p></div>
-        <InquiryForm settings={settings} />
+        <Reveal><InquiryForm settings={settings} /></Reveal>
       </div>
     </section>
   </>;

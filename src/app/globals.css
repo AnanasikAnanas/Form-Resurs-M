@@ -415,9 +415,9 @@ h3 { font-size: clamp(1.15rem, 1.8vw, 1.65rem); line-height: 1.15; letter-spacin
 .photo-viewport img { transition: transform var(--motion-photo) var(--ease-out); }
 .steps li { position: relative; }
 .steps li::before { content: ""; position: absolute; inset: -1px 0 auto; height: 1px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform var(--motion-reveal) var(--ease-out); }
-.steps li.step-entered::before { transform: scaleX(1); }
+.steps li::before { transform: scaleX(1); }
 .steps li > span { transition: color var(--motion-fast); }
-.steps li.step-current > span { color: var(--graphite); }
+
 @media (hover: hover) and (pointer: fine) {
   .action:hover svg, .header-cta:hover svg, .service-row:hover .row-arrow { transform: translateX(4px); }
   .photo-viewport:hover img { transform: scale(1.02); }
@@ -456,4 +456,9 @@ h3 { font-size: clamp(1.15rem, 1.8vw, 1.65rem); line-height: 1.15; letter-spacin
 .media-viewer :focus-visible { outline-color: var(--white); }
 @media (max-width: 700px) {
   .navigation { max-height: calc(100dvh - 68px); overflow-y: auto; overscroll-behavior: contain; }
+}
+
+.reveal { min-width: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1 !important; transform: none !important; }
 }

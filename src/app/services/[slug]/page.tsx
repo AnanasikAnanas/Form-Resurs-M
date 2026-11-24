@@ -1,3 +1,4 @@
+import { Reveal, RevealGroup, RevealItem } from "@/components/reveal";
 import { workshopPhotos } from "@/content/workshop";
 import { notFound } from "next/navigation";
 import { ContactBand, PageIntro, ProjectList, TextLink } from "@/components/editorial";
@@ -28,15 +29,15 @@ export default async function ServicePage({ params }: Props) {
   return <>
     <PageIntro title={service.title} description={service.summary} label={`Направление ${service.number}`} current={service.shortTitle} image={service.image} photo={slug === "mold-maintenance" ? workshopPhotos.maintenance : undefined} parent={{ href: "/services/", label: "Услуги" }} />
     <section className="section"><div className="wrap detail-grid">
-      <div><h2>Особенности</h2><p className="section-lede">{service.features}</p></div>
-      <div><h2>Типичные задачи</h2><ul className="rule-list">{service.tasks.map((task) => <li key={task}>{task}</li>)}</ul></div>
+      <Reveal><h2>Особенности</h2><p className="section-lede">{service.features}</p></Reveal>
+      <div><Reveal as="h2">Типичные задачи</Reveal><RevealGroup as="ul" className="rule-list">{service.tasks.map((task, index) => <RevealItem as="li" index={index} key={task}>{task}</RevealItem>)}</RevealGroup></div>
     </div></section>
     <section className="section process-section"><div className="wrap split">
-      <h2>Возможный порядок работ</h2>
-      <ol className="rule-list numbered">{service.process.map((step) => <li key={step}>{step}</li>)}</ol>
+      <Reveal as="h2">Возможный порядок работ</Reveal>
+      <RevealGroup as="ol" className="rule-list numbered">{service.process.map((step, index) => <RevealItem as="li" index={index} key={step}>{step}</RevealItem>)}</RevealGroup>
     </div></section>
     {related.length > 0 && <section className="section"><div className="wrap">
-      <div className="section-heading"><h2>Материалы по услуге</h2><TextLink href="/projects/">К портфолио</TextLink></div>
+      <Reveal className="section-heading"><h2>Материалы по услуге</h2><TextLink href="/projects/">К портфолио</TextLink></Reveal>
       <ProjectList projects={related} compact />
     </div></section>}
     <ContactBand service={slug} />

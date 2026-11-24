@@ -77,3 +77,18 @@ Review the layout at 320, 375, 768, 1440 and 1920 px. Check horizontal overflow,
 - Preserve the Industrial Editorial design.
 - Do not sacrifice performance for decorative interactions.
 - Do not duplicate existing functionality.
+
+
+## Scroll Reveal Animation Guidelines
+
+- Use Motion for scroll-triggered reveal animations.
+- Prefer opacity and transform.
+- Animate sections only once.
+- Keep animation durations consistent.
+- Avoid excessive stagger delays.
+- Never introduce bouncing or decorative movement.
+- Respect reduced-motion preferences.
+- Preserve content accessibility without JavaScript.
+- Avoid unnecessary Client Components.
+- Preserve the Industrial Editorial design language.
+- Do not introduce layout shifts.
