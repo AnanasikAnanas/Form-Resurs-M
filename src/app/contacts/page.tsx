@@ -3,12 +3,22 @@ import { PageIntro } from "@/components/editorial";
 import { InquiryForm } from "@/components/inquiry-form";
 import { pageMeta } from "@/content/seo";
 import { site } from "@/content/site";
+import { getInquiryAvailability } from "@/server/legal";
+import { reportEvent } from "@/server/errors";
+import type { InquirySettings } from "@/lib/inquiry-schema";
+
+export const dynamic = "force-dynamic";
 
 const description = "Контакты слесарной мастерской «Форм-Ресурс М» в Подольске.";
 export const metadata = pageMeta("Контакты", description, "/contacts/");
 
-export default function ContactsPage() {
-  const { contact, privacy, showPlaceholders } = site;
+export default async function ContactsPage() {
+  const { contact, showPlaceholders } = site;
+  let settings: InquirySettings = { enabled: false, limits: { maxFiles: 5, maxFileBytes: 5 * 1024 * 1024, maxTotalBytes: 15 * 1024 * 1024, formats: ["jpg", "png", "webp", "pdf"] }, documentVersion: "" };
+  try {
+    const availability = await getInquiryAvailability();
+    settings = { enabled: availability.enabled, limits: availability.config.limits, documentVersion: availability.legal ? `${availability.legal.policyHash}:${availability.legal.consentHash}` : "" };
+  } catch { reportEvent("INQUIRY_CONFIGURATION_UNAVAILABLE"); }
   const fields = [
     { label: "Адрес", value: contact.address },
     { label: "Телефон", value: contact.phone?.display, href: contact.phone?.href },
@@ -42,7 +52,7 @@ export default function ContactsPage() {
     <section className="section process-section" id="inquiry" aria-labelledby="inquiry-title">
       <div className="wrap detail-grid">
         <div><h2 id="inquiry-title">Обсудить задачу</h2><p className="section-caption">Опишите тип пресс-формы, заметные дефекты и желаемый результат.</p></div>
-        <InquiryForm recipient={contact.inquiryEnabled && privacy.approvedText && privacy.approvedConsent ? contact.email : null} consent={privacy.approvedConsent} />
+        <InquiryForm settings={settings} />
       </div>
     </section>
   </>;

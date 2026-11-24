@@ -11,7 +11,6 @@ export type SiteContent = {
     schedule: string | null;
     legalDetails: string[] | null;
     mapUrl: string | null;
-    inquiryEnabled: boolean;
   };
   privacy: { approvedText: string | null; approvedConsent: string | null };
 };
@@ -29,7 +28,6 @@ export const site: SiteContent = {
     schedule: null,
     legalDetails: null,
     mapUrl: null,
-    inquiryEnabled: false,
   },
   privacy: { approvedText: null, approvedConsent: null },
 };

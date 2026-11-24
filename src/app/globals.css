@@ -270,6 +270,24 @@ h3 { font-size: clamp(1.15rem, 1.8vw, 1.65rem); line-height: 1.15; letter-spacin
 .inquiry-form button { justify-self: start; }
 .inquiry-form button:disabled { color: #494c50; background: #d4d3cd; }
 .policy-link { width: fit-content; font-size: 14px; }
+.field-error { color: #91222a; font-size: 13px; font-weight: 500; line-height: 1.4; }
+.field-hint { color: var(--ink-muted); font-size: 13px; font-weight: 400; line-height: 1.5; }
+.inquiry-form [aria-invalid="true"] { border-color: var(--accent); }
+.upload-field { display: grid; gap: 8px; min-width: 0; }
+.inquiry-form input[type="file"] { padding: 9px; font-size: 14px; overflow: hidden; }
+.inquiry-form input[type="file"]::file-selector-button { margin-inline-end: 10px; padding: 6px 8px; border: 1px solid var(--rule); background: var(--paper); color: var(--graphite); font: inherit; cursor: pointer; }
+.upload-list { display: grid; gap: 0; }
+.upload-list li { display: grid; grid-template-columns: minmax(0, 1fr) 44px; align-items: center; gap: 8px; border-top: 1px solid var(--rule); padding-block: 4px; }
+.upload-list li > span { overflow-wrap: anywhere; font-size: 14px; }
+.upload-list small { display: block; color: var(--ink-muted); }
+.upload-list button { display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid var(--rule); background: transparent; cursor: pointer; }
+.form-feedback { display: grid; gap: 12px; padding: 16px; border: 1px solid var(--rule); border-inline-start: 3px solid var(--graphite); overflow-wrap: anywhere; }
+.form-feedback-error { border-inline-start-color: var(--accent); }
+.form-feedback .text-link { border: 0; border-bottom: 1px solid currentColor; background: transparent; cursor: pointer; }
+.consent a { text-decoration: underline; text-underline-offset: 3px; }
+.form-trap { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.sending-spinner { animation: sending-spin 1s linear infinite; }
+@keyframes sending-spin { to { transform: rotate(360deg); } }
 .prose { display: grid; gap: 17px; max-width: 65ch; }
 .prose p { white-space: pre-line; }
 .error-page { min-height: 55vh; padding-block-start: 60px; }
