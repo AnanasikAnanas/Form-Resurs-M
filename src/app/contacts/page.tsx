@@ -15,7 +15,7 @@ export const metadata = pageMeta("Контакты", description, "/contacts/");
 
 export default async function ContactsPage() {
   const { contact, showPlaceholders } = site;
-  let settings: InquirySettings = { enabled: false, limits: { maxFiles: 5, maxFileBytes: 5 * 1024 * 1024, maxTotalBytes: 15 * 1024 * 1024, formats: ["jpg", "png", "webp", "pdf"] }, documentVersion: "" };
+  let settings: InquirySettings = { enabled: false, limits: { maxFiles: 5, maxFileBytes: 10 * 1024 * 1024, maxTotalBytes: 20 * 1024 * 1024, formats: ["jpg", "png", "webp", "pdf"] }, documentVersion: "" };
   try {
     const availability = await getInquiryAvailability();
     settings = { enabled: availability.enabled, limits: availability.config.limits, documentVersion: availability.legal ? `${availability.legal.policyHash}:${availability.legal.consentHash}` : "" };

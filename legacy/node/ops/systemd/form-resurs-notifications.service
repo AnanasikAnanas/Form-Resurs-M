@@ -1,0 +1,18 @@
+[Unit]
+Description=Form Resurs PostgreSQL notification outbox
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=formresurs
+WorkingDirectory=/srv/form-resurs-m
+Environment=NODE_ENV=production
+EnvironmentFile=/etc/form-resurs-m/runtime.env
+ExecStart=/usr/bin/node --conditions=react-server --import tsx scripts/inquiries.ts notifications
+TimeoutStartSec=30min
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/srv/form-resurs-m/var

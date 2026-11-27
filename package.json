@@ -16,7 +16,7 @@
     "db:migrate": "prisma migrate deploy",
     "db:dev": "prisma migrate dev",
     "inquiries": "node --conditions=react-server --import tsx scripts/inquiries.ts",
-    "test": "node --conditions=react-server --import tsx --test tests/inquiries.test.ts",
+    "test": "node --conditions=react-server --import tsx --test tests/inquiries.test.ts tests/notifications.test.ts tests/legal.test.ts",
     "test:integration": "node --conditions=react-server --import tsx --test tests/integration.test.ts",
     "postinstall": "prisma generate",
     "test:motion": "node --import tsx --test tests/reveal.test.tsx"

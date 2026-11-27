@@ -1,3 +1,5 @@
+import { operator } from "./operator";
+
 export type SiteContent = {
   name: string;
   city: string;
@@ -27,7 +29,7 @@ export const site: SiteContent = {
     phone: { display: "+7 (927) 980-14-11", href: "tel:+79279801411" },
     email: "msk@form-resurs.ru",
     schedule: "Пн–Пт с 08:00 до 17:00; Сб–Вс — выходные",
-    legalDetails: null,
+    legalDetails: [operator.name, "ИНН " + operator.inn, "Юридический адрес: " + operator.address],
     mapUrl: "https://yandex.ru/maps/-/CXcWyN9r",
     mapEmbedUrl: "https://yandex.ru/map-widget/v1/-/CXcWyN9r",
   },

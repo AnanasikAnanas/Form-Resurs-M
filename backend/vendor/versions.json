@@ -1,0 +1,20 @@
+[
+  {
+    "package": "PHPMailer/PHPMailer",
+    "version": "v7.2.0",
+    "source": "https://github.com/PHPMailer/PHPMailer/tree/v7.2.0",
+    "archive_sha256": "e74dbf20b7b091945c8863c68ea0ad2532fd93465ec33b2ea5da4e1597c4581b"
+  },
+  {
+    "package": "Setasign/FPDI",
+    "version": "v2.6.10",
+    "source": "https://github.com/Setasign/FPDI/tree/v2.6.10",
+    "archive_sha256": "e7db3e99aa8089138079433d2e7ca9ed85712e8c13b0174e57fc06e4d39a79a3"
+  },
+  {
+    "package": "Setasign/FPDF",
+    "version": "1.9.0",
+    "source": "https://github.com/Setasign/FPDF/tree/1.9.0",
+    "archive_sha256": "cbeeabe3c32e7ce23b9a9440e7c86e198d785d1c142c137af59e82551c8f88de"
+  }
+]
