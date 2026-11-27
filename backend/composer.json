@@ -1,0 +1,1 @@
+{"name":"form-resurs/inquiries","require":{"php":"^8.2","ext-pdo_mysql":"*","ext-fileinfo":"*","ext-gd":"*","ext-mbstring":"*","ext-openssl":"*","phpmailer/phpmailer":"^7.2","setasign/fpdi":"^2.6","setasign/fpdf":"^1.9"}}

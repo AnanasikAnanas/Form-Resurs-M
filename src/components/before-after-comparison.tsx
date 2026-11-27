@@ -20,11 +20,11 @@ export function BeforeAfterComparison({ before, after, width, height, label }: P
       <div className="comparison-before" style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}>
         <Image src={before.src} alt={before.alt} fill sizes="(max-width: 700px) 90vw, 70vw" />
       </div>
-      <span className="comparison-label comparison-label-before">До</span>
+      <span className="comparison-label comparison-label-before">До · визуализация</span>
       <span className="comparison-label comparison-label-after">После</span>
       <span className="comparison-divider" style={{ left: `${position}%` }} aria-hidden="true" />
+      <input id={id} type="range" min={0} max={100} value={position} aria-label={`${label}: положение границы сравнения`} aria-valuetext={`До: ${position}%, после: ${100 - position}%`} onChange={event => setPosition(Number(event.target.value))} />
     </div>
     <figcaption><label htmlFor={id}>{label}</label></figcaption>
-    <input id={id} type="range" min={0} max={100} value={position} aria-label={`${label}: положение границы сравнения`} aria-valuetext={`До: ${position}%, после: ${100 - position}%`} onChange={event => setPosition(Number(event.target.value))} />
   </figure>;
 }

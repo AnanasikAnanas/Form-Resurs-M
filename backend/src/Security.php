@@ -25,7 +25,7 @@ function verifyToken(string $value, string $key, array $legal, ?int $now = null)
 {
     $parts = explode('.', $value);
     if (strlen($value) > 2000 || count($parts) !== 2 || !preg_match('/^[A-Za-z0-9_-]+$/D', $parts[0]) || !preg_match('/^[a-f0-9]{64}$/D', $parts[1]) || !hash_equals(sign($parts[0]), $parts[1])) throw new AppError(400, 'FORM_TOKEN', 'Обновите форму и повторите отправку.');
-    $data = json_decode(base64_decode(strtr($parts[0], '-_', '+/'), true) ?: '', true, 16, JSON_THROW_ON_ERROR);
+    try { $data = json_decode(base64_decode(strtr($parts[0], '-_', '+/'), true) ?: '', true, 16, JSON_THROW_ON_ERROR); } catch (\JsonException) { throw new AppError(400, 'FORM_TOKEN', 'Обновите форму и повторите отправку.'); }
     $now ??= (int)floor(microtime(true) * 1000);
     if (!is_array($data) || count($data) !== 4 || !is_int($data['issuedAt'] ?? null) || ($data['key'] ?? '') !== $key || ($data['policyHash'] ?? '') !== $legal['policyHash'] || ($data['consentHash'] ?? '') !== $legal['consentHash'] || $now - $data['issuedAt'] > 1800000 || $now < $data['issuedAt']) throw new AppError(400, 'FORM_EXPIRED', 'Условия формы обновились или время ожидания истекло. Обновите форму.');
     if ($now - $data['issuedAt'] < 2000) throw new AppError(400, 'TOO_FAST', 'Подождите несколько секунд и повторите отправку.');
@@ -70,7 +70,7 @@ function parseMultipart(string $body, string $type): array
         if ($index !== 0) { if (!str_starts_with($part, "\r\n")) throw new AppError(400, 'MULTIPART', 'Не удалось прочитать форму.'); $part = substr($part, 2); }
         $split = strpos($part, "\r\n\r\n");
         if ($split === false || $split > 8192) throw new AppError(400, 'MULTIPART', 'Не удалось прочитать форму.');
-        $headers = substr($part, 0, $split); $content = substr($part, $split + 4);
+        $headers = str_replace("\r\n", "\n", substr($part, 0, $split)); $content = substr($part, $split + 4);
         if (!preg_match('/^Content-Disposition: form-data;\s*name="([^"\r\n]+)"(?:;\s*filename="([^"\r\n]*)")?$/im', $headers, $disposition)) throw new AppError(400, 'MULTIPART', 'Не удалось прочитать форму.');
         $name = $disposition[1];
         if (array_key_exists(2, $disposition)) {

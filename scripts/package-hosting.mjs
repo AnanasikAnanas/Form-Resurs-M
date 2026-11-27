@@ -1,0 +1,10 @@
+import { cp, mkdir, writeFile, access } from 'node:fs/promises';
+await access('out/index.html');
+const root='deploy/shared-hosting';
+await mkdir(root+'/public_html',{recursive:true});
+await cp('out',root+'/public_html',{recursive:true,force:true});
+await cp('backend/public-api',root+'/public_html/api',{recursive:true,force:true});
+await mkdir(root+'/private/backend',{recursive:true});
+for(const item of ['bootstrap.php','config.example.php','composer.json','src','migrations','bin','vendor'])await cp('backend/'+item,root+'/private/backend/'+item,{recursive:true,force:true});
+await writeFile(root+'/public_html/.htaccess','Options -Indexes\nDirectoryIndex index.html\n<IfModule mod_headers.c>\nHeader always set X-Content-Type-Options "nosniff"\nHeader always set X-Frame-Options "DENY"\n</IfModule>\n');
+await writeFile(root+'/private/.htaccess','Require all denied\n');

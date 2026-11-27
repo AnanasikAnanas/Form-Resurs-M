@@ -92,3 +92,18 @@ Review the layout at 320, 375, 768, 1440 and 1920 px. Check horizontal overflow,
 - Avoid unnecessary Client Components.
 - Preserve the Industrial Editorial design language.
 - Do not introduce layout shifts.
+
+## Shared Hosting Backend Architecture
+
+- Frontend uses Next.js static export.
+- Backend uses PHP and PDO.
+- Database uses MySQL/MariaDB.
+- Do not introduce Node.js runtime requirements in production.
+- Preserve API contracts when possible.
+- Keep secrets outside public directories.
+- Never expose uploaded files publicly.
+- Preserve existing UI and UX.
+- Use server-side validation and database transactions.
+- Do not weaken security to improve hosting compatibility.
+- Maintain deployment compatibility with shared hosting.
+- Document hosting requirements before deployment.

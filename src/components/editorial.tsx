@@ -101,7 +101,14 @@ export function ProjectList({ projects, compact = false }: { projects: Project[]
       const service = services.find(({ slug }) => slug === project.serviceSlug);
       return <RevealItem as="article" type="fade" index={index} className="project" key={project.id} id={project.id}>
         <div className="project-visual">
-          {project.status === "published" && (project.before || project.after) ? (
+          {project.caseStudy ? (
+            <figure className="project-illustration project-case-cover">
+              <MediaTrigger src={project.caseStudy.afterPhotos[0].src} slides={project.caseStudy.afterPhotos}>
+                <Image src={project.caseStudy.afterPhotos[0].src} width={964} height={1280} sizes={compact ? "(max-width: 700px) 100vw, 50vw" : "(max-width: 700px) 100vw, 55vw"} alt={project.caseStudy.afterPhotos[0].alt} />
+              </MediaTrigger>
+              <figcaption>{project.caseStudy.formNumber} / После ремонта</figcaption>
+            </figure>
+          ) : project.status === "published" && (project.before || project.after) ? (
             <div className="photo-pair">
               {([[project.before, "До работ"], [project.after, "После работ"]] as const).map(([src, label]) => src && (
                 <figure key={label}><MediaTrigger src={src} slides={([[project.before, "До работ"], [project.after, "После работ"]] as const).flatMap(([image, caption]) => image ? [{ src: image, alt: `${project.title} — ${caption.toLowerCase()}`, caption }] : [])}><Image src={src} width={800} height={540} alt={`${project.title} — ${label.toLowerCase()}`} /></MediaTrigger><figcaption>{label}</figcaption></figure>
@@ -118,7 +125,7 @@ export function ProjectList({ projects, compact = false }: { projects: Project[]
           <p className="project-category">{project.status === "demo" && <span>Пример оформления</span>}{service?.shortTitle}</p>
           <h3>{project.title}</h3>
           <p>{project.task}</p>
-          {compact ? <TextLink href={`/projects/#${project.id}`}>Материал</TextLink> : (
+          {project.caseStudy ? <TextLink href={`/projects/${project.id}/`}>Смотреть проект</TextLink> : compact ? <TextLink href={`/projects/#${project.id}`}>Материал</TextLink> : (
             <dl className="project-details">
               <div><dt>Выполненные работы</dt><dd>{project.work ?? "Описание работ будет добавлено."}</dd></div>
               <div><dt>Результат</dt><dd>{project.result ?? "Материалы для описания результата будут добавлены."}</dd></div>

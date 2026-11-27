@@ -8,3 +8,6 @@ out/
 src/generated/prisma/
 var/
 coverage/
+deploy/
+backend/config.local.php
+backend/private/

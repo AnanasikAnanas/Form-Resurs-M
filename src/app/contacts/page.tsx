@@ -1,25 +1,16 @@
 import { Reveal } from "@/components/reveal";
 import { ArrowUpRight } from "lucide-react";
 import { PageIntro } from "@/components/editorial";
-import { InquiryForm } from "@/components/inquiry-form";
+import { RemoteInquiryForm } from "@/components/remote-inquiry-form";
 import { pageMeta } from "@/content/seo";
 import { site } from "@/content/site";
-import { getInquiryAvailability } from "@/server/legal";
-import { reportEvent } from "@/server/errors";
-import type { InquirySettings } from "@/lib/inquiry-schema";
 
-export const dynamic = "force-dynamic";
 
 const description = "Контакты слесарной мастерской «Форм-Ресурс М» в Подольске.";
 export const metadata = pageMeta("Контакты", description, "/contacts/");
 
-export default async function ContactsPage() {
+export default function ContactsPage() {
   const { contact, showPlaceholders } = site;
-  let settings: InquirySettings = { enabled: false, limits: { maxFiles: 5, maxFileBytes: 10 * 1024 * 1024, maxTotalBytes: 20 * 1024 * 1024, formats: ["jpg", "png", "webp", "pdf"] }, documentVersion: "" };
-  try {
-    const availability = await getInquiryAvailability();
-    settings = { enabled: availability.enabled, limits: availability.config.limits, documentVersion: availability.legal ? `${availability.legal.policyHash}:${availability.legal.consentHash}` : "" };
-  } catch { reportEvent("INQUIRY_CONFIGURATION_UNAVAILABLE"); }
   const fields = [
     { label: "Адрес", value: contact.address },
     { label: "Телефон", value: contact.phone?.display, href: contact.phone?.href },
@@ -54,7 +45,7 @@ export default async function ContactsPage() {
     <section className="section process-section" id="inquiry" aria-labelledby="inquiry-title">
       <div className="wrap detail-grid">
         <div><h2 id="inquiry-title">Обсудить задачу</h2><p className="section-caption">Опишите тип пресс-формы, заметные дефекты и желаемый результат.</p></div>
-        <Reveal><InquiryForm settings={settings} /></Reveal>
+        <Reveal><RemoteInquiryForm /></Reveal>
       </div>
     </section>
   </>;

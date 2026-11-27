@@ -1,6 +1,6 @@
 {
   "name": "form-resurs-m",
-  "version": "2.0.0",
+  "version": "2.4.0",
   "private": true,
   "engines": {
     "node": ">=24.0.0"
@@ -10,51 +10,26 @@
     "build": "next build --webpack",
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit",
-    "preview": "next start --hostname 127.0.0.1",
-    "start": "next start --hostname 127.0.0.1",
-    "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate deploy",
-    "db:dev": "prisma migrate dev",
-    "inquiries": "node --conditions=react-server --import tsx scripts/inquiries.ts",
-    "test": "node --conditions=react-server --import tsx --test tests/inquiries.test.ts tests/notifications.test.ts tests/legal.test.ts",
-    "test:integration": "node --conditions=react-server --import tsx --test tests/integration.test.ts",
-    "postinstall": "prisma generate",
-    "test:motion": "node --import tsx --test tests/reveal.test.tsx"
+    "test": "node --import tsx --test tests/reveal.test.tsx",
+    "package": "npm run build && node scripts/package-hosting.mjs"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "7.10.1",
-    "@prisma/client": "7.10.1",
-    "dotenv": "18.0.10",
-    "file-type": "22.3.0",
     "lucide-react": "1.24.0",
     "motion": "12.40.0",
     "next": "16.4.6",
-    "nodemailer": "10.6.1",
-    "pdf-lib": "1.17.1",
-    "pg": "8.23.1",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "server-only": "0.0.1",
-    "sharp": "0.35.5",
     "zod": "4.6.7"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "4.3.0",
     "@types/node": "22.20.5",
-    "@types/nodemailer": "8.0.2",
-    "@types/pg": "8.23.1",
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
     "eslint": "9.39.4",
     "eslint-config-next": "16.4.6",
-    "prisma": "7.10.1",
     "tailwindcss": "4.3.0",
     "tsx": "4.23.15",
     "typescript": "5.9.3"
-  },
-  "overrides": {
-    "@prisma/config": {
-      "effect": "3.22.5"
-    }
   }
 }

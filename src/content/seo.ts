@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { site } from "./site";
 import { services, serviceUrl } from "./services";
+import { projects } from "./projects";
 
 function configuredUrl() {
   if (!process.env.SITE_URL) return null;
@@ -13,7 +14,7 @@ function configuredUrl() {
 
 export const siteUrl = configuredUrl();
 export const indexable = Boolean(siteUrl && process.env.SITE_INDEXABLE === "true");
-export const publicRoutes = ["/", "/services/", "/projects/", "/about/", "/contacts/", ...services.map(({ slug }) => serviceUrl(slug))];
+export const publicRoutes = ["/", "/services/", "/projects/", "/about/", "/contacts/", ...services.map(({ slug }) => serviceUrl(slug)), ...projects.filter(project => project.status === "published" && project.caseStudy).map(project => `/projects/${project.id}/`)];
 
 export function pageMeta(title: string, description: string, path: string, publicPage = true): Metadata {
   const url = siteUrl ? new URL(path, siteUrl) : undefined;

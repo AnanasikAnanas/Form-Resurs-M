@@ -8,7 +8,7 @@ function config(): array
     if ($value !== null) return $value;
     $path = getenv('FR_CONFIG_FILE') ?: dirname(__DIR__) . '/config.local.php';
     if (!is_file($path)) $path = dirname(__DIR__) . '/config.example.php';
-    $root = realpath($_SERVER['DOCUMENT_ROOT'] ?? '') ?: '';
+    $root = isset($_SERVER['DOCUMENT_ROOT']) && $_SERVER['DOCUMENT_ROOT'] !== '' ? (realpath($_SERVER['DOCUMENT_ROOT']) ?: '') : '';
     $canonical = realpath($path);
     if (PHP_SAPI !== 'cli' && $root !== '' && $canonical !== false && str_starts_with($canonical, rtrim($root, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR)) throw new \RuntimeException('CONFIG_PUBLIC');
     $value = require $path;
